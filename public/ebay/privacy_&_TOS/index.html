@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CardOps AI Privacy & Terms</title>
+    <style>
+      :root {
+        color: #17202a;
+        background: #f7f9fb;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+      main {
+        width: min(820px, 100%);
+        background: #ffffff;
+        border: 1px solid #dce3ea;
+        border-radius: 8px;
+        padding: 24px;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 24px 0 8px;
+        font-size: 18px;
+      }
+      p,
+      li {
+        color: #526173;
+        line-height: 1.55;
+      }
+      ul {
+        padding-left: 20px;
+      }
+      a {
+        color: #0f766e;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      code {
+        background: #eef2f6;
+        border-radius: 4px;
+        padding: 2px 4px;
+        word-break: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Privacy &amp; Terms Of Service</h1>
+      <p>Last updated: June 24, 2026</p>
+
+      <h2>Privacy</h2>
+      <p>
+        This GitHub Pages site hosts static support pages for CardOps AI and the eBay OAuth callback.
+        It does not use cookies, analytics scripts, advertising scripts, or local browser storage.
+      </p>
+      <p>
+        During the eBay OAuth flow, eBay may redirect your browser to
+        <code>https://940smiley.github.io/cardops/ebay/callback/</code> with authorization parameters
+        in the URL. The static callback page attempts to forward those parameters to the local CardOps
+        API running on your machine at <code>127.0.0.1:8000</code>.
+      </p>
+      <ul>
+        <li>The static site does not intentionally store OAuth authorization codes.</li>
+        <li>CardOps local logs should record only redacted OAuth evidence.</li>
+        <li>GitHub may process standard server logs because this site is hosted on GitHub Pages.</li>
+      </ul>
+
+      <h2>Terms Of Service</h2>
+      <p>
+        CardOps AI is provided as a local-first project for managing card inventory and supporting
+        eBay listing workflows. You are responsible for how you configure, authorize, and use the app.
+      </p>
+      <ul>
+        <li>Do not use CardOps AI to violate eBay policies, marketplace rules, or applicable law.</li>
+        <li>Review all listing content and account actions before publishing or relying on them.</li>
+        <li>Keep your API keys, OAuth credentials, and local data secure.</li>
+        <li>The project is provided without warranties or guarantees of availability, accuracy, or fitness for a particular purpose.</li>
+      </ul>
+
+      <h2>Independent Project</h2>
+      <p>
+        CardOps AI is independent and is not owned, operated, sponsored, or endorsed by eBay.
+      </p>
+
+      <nav aria-label="CardOps eBay support pages">
+        <a href="/cardops/">Home</a>
+        <a href="/cardops/ebay/about/">About</a>
+        <a href="/cardops/ebay/callback/">Callback</a>
+      </nav>
+    </main>
+  </body>
+</html>
