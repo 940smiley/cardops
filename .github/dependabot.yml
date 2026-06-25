@@ -1,0 +1,181 @@
+```yaml
+version: 2
+
+updates:
+  # ------------------------------------------------------------
+  # Python backend, OCR, computer vision, API, and worker packages
+  # ------------------------------------------------------------
+  - package-ecosystem: "pip"
+    directories:
+      - "/"
+      - "/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "America/Chicago"
+
+    open-pull-requests-limit: 3
+
+    labels:
+      - "dependencies"
+      - "python"
+      - "backend"
+
+    commit-message:
+      prefix: "deps(python)"
+      include: "scope"
+
+    groups:
+      python-production:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
+
+      python-development:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+
+    ignore:
+      # Major versions should be reviewed separately because OCR,
+      # image-processing, AI, and database libraries may introduce
+      # breaking changes.
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+
+
+  # ------------------------------------------------------------
+  # Node.js frontend and root JavaScript tooling
+  # ------------------------------------------------------------
+  - package-ecosystem: "npm"
+    directories:
+      - "/"
+      - "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:15"
+      timezone: "America/Chicago"
+
+    open-pull-requests-limit: 3
+
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "frontend"
+
+    commit-message:
+      prefix: "deps(npm)"
+      include: "scope"
+
+    groups:
+      npm-production:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
+
+      npm-development:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+
+    ignore:
+      # Keep framework/runtime major upgrades out of routine grouped PRs.
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+
+
+  # ------------------------------------------------------------
+  # GitHub Actions used by CI, testing, releases, and security jobs
+  # ------------------------------------------------------------
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "monday"
+      time: "06:30"
+      timezone: "America/Chicago"
+
+    open-pull-requests-limit: 2
+
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "ci"
+
+    commit-message:
+      prefix: "deps(actions)"
+      include: "scope"
+
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+
+  # ------------------------------------------------------------
+  # Root Dockerfile
+  #
+  # Remove this block if CardOps does not contain a root Dockerfile.
+  # ------------------------------------------------------------
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "monday"
+      time: "06:45"
+      timezone: "America/Chicago"
+
+    open-pull-requests-limit: 2
+
+    labels:
+      - "dependencies"
+      - "docker"
+
+    commit-message:
+      prefix: "deps(docker)"
+      include: "scope"
+
+    groups:
+      docker-images:
+        patterns:
+          - "*"
+
+
+  # ------------------------------------------------------------
+  # Docker Compose images
+  #
+  # Remove this block if CardOps does not use compose.yaml,
+  # compose.yml, docker-compose.yaml, or docker-compose.yml.
+  # ------------------------------------------------------------
+  - package-ecosystem: "docker-compose"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "monday"
+      time: "07:00"
+      timezone: "America/Chicago"
+
+    open-pull-requests-limit: 2
+
+    labels:
+      - "dependencies"
+      - "docker"
+      - "docker-compose"
+
+    commit-message:
+      prefix: "deps(compose)"
+      include: "scope"
+
+    groups:
+      compose-images:
+        patterns:
+          - "*"
+```
