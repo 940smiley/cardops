@@ -1,0 +1,96 @@
+```yaml
+name: CodeQL Security Scan
+
+on:
+  # Scan changes merged or pushed to the primary branches.
+  push:
+    branches:
+      - main
+      - master
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+      - "examples/**"
+      - "sample-data/**"
+      - "screenshots/**"
+      - "**/*.png"
+      - "**/*.jpg"
+      - "**/*.jpeg"
+      - "**/*.gif"
+      - "**/*.svg"
+
+  # Scan proposed changes before they are merged.
+  pull_request:
+    branches:
+      - main
+      - master
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+      - "examples/**"
+      - "sample-data/**"
+      - "screenshots/**"
+      - "**/*.png"
+      - "**/*.jpg"
+      - "**/*.jpeg"
+      - "**/*.gif"
+      - "**/*.svg"
+
+  # Catch vulnerabilities introduced by dependency or analysis updates.
+  schedule:
+    - cron: "17 8 * * 1"
+
+  # Allow the scan to be started manually from GitHub Actions.
+  workflow_dispatch:
+
+# Cancel an obsolete scan when newer code is pushed to the same branch.
+concurrency:
+  group: codeql-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    name: Analyze Python and JavaScript
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    permissions:
+      contents: read
+      security-events: write
+      packages: read
+      actions: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          # CardOps Python backend plus JavaScript/TypeScript frontend.
+          #
+          # Keeping both languages in one job reduces repeated runner,
+          # checkout, and setup overhead compared with a matrix.
+          languages: python,javascript-typescript
+
+          # Adds additional security-focused queries beyond the defaults.
+          queries: security-extended
+
+      # Python and JavaScript/TypeScript are interpreted languages, so
+      # CodeQL can extract them without compiling the application.
+      #
+      # Do not add npm install, pip install, application startup, API calls,
+      # OCR downloads, database migrations, or live-service tests here.
+      # Those belong in separate CI workflows and would unnecessarily
+      # increase CodeQL runtime and GitHub Actions usage.
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          upload: true
+```
