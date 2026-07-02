@@ -21,7 +21,10 @@ const cardSchema = z.object({
   manufacturer: z.string().optional(),
   brand: z.string().optional(),
   set_name: z.string().optional(),
-  set_year: z.coerce.number().int().min(1800).max(2200).optional(),
+  set_year: z.preprocess(
+    (val) => (val === "" ? undefined : val),
+    z.coerce.number().int().min(1800).max(2200).optional()
+  ),
   card_number: z.string().optional(),
   estimated_value: z.coerce.number().min(0).optional(),
   storage_location: z.string().optional()
