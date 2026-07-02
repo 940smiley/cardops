@@ -1,0 +1,13 @@
+{
+  "name": "cardops-ai",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "dev": "pnpm --filter @cardops/web dev",
+    "build": "pnpm --filter @cardops/web build",
+    "test": "pnpm --filter @cardops/web test",
+    "test:e2e": "pnpm --filter @cardops/web test:e2e",
+    "lint": "pnpm --filter @cardops/web lint"
+  }
+}

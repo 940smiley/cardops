@@ -79,11 +79,10 @@
     <main>
       <h1>CardOps AI eBay Callback</h1>
       <p>
-        This page received the eBay authorization response. If CardOps AI is running locally,
-        it will forward the callback to <code>127.0.0.1</code> and CardOps will record redacted
-        OAuth evidence in the local audit log.
+        This page received the eBay authorization response. It will now open the local
+        CardOps callback so the desktop app can exchange the code and store the connection.
       </p>
-      <div id="status" class="status">Processing callback...</div>
+      <div id="status" class="status">Opening local CardOps callback...</div>
       <a id="manualLink" class="button" href="#" hidden>Open local CardOps callback</a>
     </main>
     <script>
@@ -94,7 +93,8 @@
         const params = new URLSearchParams(query);
         const code = params.get("code");
         const error = params.get("error");
-        const localUrl = "http://127.0.0.1:8000/ebay/callback" + query;
+        params.set("browser", "1");
+        const localUrl = "http://127.0.0.1:8000/ebay/callback?" + params.toString();
 
         function setStatus(kind, html) {
           status.className = "status " + kind;
@@ -106,36 +106,21 @@
         if (error) {
           setStatus(
             "warn",
-            "eBay returned an authorization error. CardOps will record the declined callback if the local API is running."
+            "eBay returned an authorization error. Opening local CardOps so it can record the declined callback."
           );
         } else if (!code) {
           setStatus("fail", "Missing OAuth code. This URL does not contain an eBay authorization code.");
           return;
         }
 
-        fetch(localUrl, {
-          method: "GET",
-          mode: "cors",
-          cache: "no-store",
-          credentials: "omit"
-        })
-          .then(function (response) {
-            if (!response.ok) {
-              throw new Error("Local CardOps API returned HTTP " + response.status);
-            }
-            return response.json();
-          })
-          .then(function () {
-            setStatus("ok", "Callback forwarded to local CardOps AI. You can close this page.");
-          })
-          .catch(function (err) {
-            manualLink.hidden = false;
-            setStatus(
-              "warn",
-              "CardOps AI is not reachable at <code>127.0.0.1:8000</code>. Start CardOps locally, then click the button below. Detail: " +
-                err.message
-            );
-          });
+        manualLink.hidden = false;
+        setStatus(
+          "ok",
+          "Opening <code>127.0.0.1:8000</code>. If the browser does not move automatically, click the button below."
+        );
+        window.setTimeout(function () {
+          window.location.replace(localUrl);
+        }, 250);
       })();
     </script>
   </body>
